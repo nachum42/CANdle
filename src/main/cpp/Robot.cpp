@@ -56,7 +56,17 @@ void Robot::AutonomousPeriodic() {
   }
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+  ctre::phoenix::led::CANdleConfiguration config;
+
+  config.stripType = ctre::phoenix::led::LEDStripType::RGB; 
+
+  config.brightnessScalar = 0.5; 
+
+  m_candle.ConfigAllSettings(config);
+
+  m_candle.SetLEDs(255, 255, 255);
+}
 
 void Robot::TeleopPeriodic() {}
 
