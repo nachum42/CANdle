@@ -9,8 +9,38 @@
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include "ctre/phoenix/led/CANdle.h"
+#include "ctre/phoenix/led/ColorFlowAnimation.h"
+#include "ctre/phoenix/led/FireAnimation.h"
+#include "ctre/phoenix/led/LarsonAnimation.h"
+#include "ctre/phoenix/led/RainbowAnimation.h"
+#include "ctre/phoenix/led/RgbFadeAnimation.h"
+#include "ctre/phoenix/led/SingleFadeAnimation.h"
+#include "ctre/phoenix/led/StrobeAnimation.h"
+#include "ctre/phoenix/led/TwinkleAnimation.h"
+#include "ctre/phoenix/led/TwinkleOffAnimation.h"
+
+#include <frc/XboxController.h>
 
 class Robot : public frc::TimedRobot {
+
+  int LedCount = -1;
+
+  ctre::phoenix::led::Animation *m_toAnimate = NULL;
+
+  enum AnimationTypes {
+        ColorFlow,
+        Fire,
+        Larson,
+        Rainbow,
+        RgbFade,
+        SingleFade,
+        Strobe,
+        Twinkle,
+        TwinkleOff,
+        SetAll
+    };
+    AnimationTypes m_currentAnimation;
+
  public:
   void RobotInit() override;
   void RobotPeriodic() override;
@@ -24,6 +54,10 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
   void SimulationInit() override;
   void SimulationPeriodic() override;
+  void IncrementAnimation();
+  void DecrementAnimation();
+  void ChangeAnimation(AnimationTypes toChange);
+
 
  private:
   frc::SendableChooser<std::string> m_chooser;
@@ -31,6 +65,10 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
 
-  ctre::phoenix::led::CANdle m_candle {0, ""};
+  ctre::phoenix::led::CANdle m_candle {5, ""};
+
+  //ctre::phoenix::led::RainbowAnimation rainbowAnim{1, 0.5, 64};
+
+  frc::XboxController m_stick{0};
 
 };
